@@ -8,7 +8,6 @@ lazy val root = (project in file("."))
   .settings(
     organization := "com.two",
     name := "{{cookiecutter.name}}",
-    version := "0.1.0",
     libraryDependencies ++= Seq(
       /* Http4s */
       "org.http4s" %% "http4s-dsl" % Http4sVersion,
@@ -30,13 +29,8 @@ lazy val root = (project in file("."))
 
 /** Scalafix Configuration */
 ThisBuild / scalafixDependencies += "com.github.liancheng" %% "organize-imports" % "0.5.0"
-inThisBuild(
-  List(
-    scalaVersion := "{{cookiecutter.scala_version}}", // TODO can this be removed because of the THisBuild?
-    semanticdbEnabled := true,
-    semanticdbVersion := scalafixSemanticdb.revision
-  )
-)
+ThisBuild / semanticdbEnabled := true
+ThisBuild / semanticdbVersion := scalafixSemanticdb.revision
 
 /** GitHub Maven Packages Deployment + Resolver Configuration */
 ThisBuild / githubOwner := "two-app"
