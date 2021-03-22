@@ -1,10 +1,9 @@
 package http
 
-import config.PrettyProduct
 import io.circe.{Decoder, Encoder, HCursor, Json}
 import org.http4s.Status
 
-sealed trait ErrorResponse extends Throwable with PrettyProduct {
+sealed trait ErrorResponse extends Throwable {
   def status: Status
   def reason: String
 }

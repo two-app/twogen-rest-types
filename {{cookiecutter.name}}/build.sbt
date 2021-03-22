@@ -1,7 +1,8 @@
+val Http4sVersion = "0.21.14"
 val TapirVersion = "0.17.19"
 val CirceVersion = "0.13.0"
 
-ThisBuild / scalaVersion := { { cookiecutter.scala_version } }
+ThisBuild / scalaVersion := "{{cookiecutter.scala_version}}"
 
 lazy val root = (project in file("."))
   .settings(
@@ -9,16 +10,17 @@ lazy val root = (project in file("."))
     name := "{{cookiecutter.name}}",
     version := "0.1.0",
     libraryDependencies ++= Seq(
+      /* Http4s */
+      "org.http4s" %% "http4s-dsl" % Http4sVersion,
+      /* Tapir */
       "com.softwaremill.sttp.tapir" %% "tapir-core" % TapirVersion,
+      "com.softwaremill.sttp.tapir" %% "tapir-openapi-docs" % TapirVersion,
+      "com.softwaremill.sttp.tapir" %% "tapir-openapi-circe-yaml" % TapirVersion,
+      "com.softwaremill.sttp.tapir" %% "tapir-json-circe" % TapirVersion,
+      /* Circe */
       "io.circe" %% "circe-generic" % CirceVersion,
       "io.circe" %% "circe-parser" % CirceVersion,
-      /** Logging */
-      "ch.qos.logback" % "logback-classic" % "1.2.3",
-      "org.typelevel" % "log4cats-slf4j_2.13" % "1.2.0-RC2",
-      "net.logstash.logback" % "logstash-logback-encoder" % "6.6",
-      /** Libraries */
-      "com.pauldijou" %% "jwt-core" % "4.3.0",
-      /** Testing */
+      /* Testing */
       "org.scalameta" %% "munit" % "0.7.22" % Test
     ),
     addCompilerPlugin("org.typelevel" % "kind-projector_2.13.4" % "0.11.2"),

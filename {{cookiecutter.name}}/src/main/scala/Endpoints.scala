@@ -2,8 +2,8 @@ package twogen.types.{{cookiecutter.name}}
 
 import http.ErrorResponse
 import sttp.tapir._
-import sttp.tapir.json.circe._
 import sttp.tapir.generic.auto._
+import sttp.tapir.json.circe._
 
 object Endpoints {
   val health: Endpoint[Unit, ErrorResponse, Unit, Any] =
