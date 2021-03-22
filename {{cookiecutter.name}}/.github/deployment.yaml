@@ -1,0 +1,73 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{cookiecutter.name}}
+  labels:
+    app: {{cookiecutter.name}}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{cookiecutter.name}}
+  template:
+    metadata:
+      labels:
+        app: {{cookiecutter.name}}
+    spec:
+      containers:
+      - name: {{cookiecutter.name}}
+        image: docker.pkg.github.com/two-app/{{cookiecutter.name}}/{{cookiecutter.name}}:1.0.0
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SERVER_PORT
+          value: "8080"
+        - name: SERVER_HOST
+          value: "0.0.0.0"
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: awscrd
+              key: access
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: awscrd
+              key: secret_access
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 30 
+      imagePullSecrets:
+      - name: regcred
+---
+# internally exposed name + port
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: {{cookiecutter.name}}
+  name: {{cookiecutter.name}}
+spec:
+  ports:
+  - port: 8080
+    name: high
+    protocol: TCP
+    targetPort: 8080
+  - port: 80
+    name: low
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: {{cookiecutter.name}}
+---
+# externally exposed routes
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: {{cookiecutter.name}}-ingress
+spec:
+  rules: []
+---
