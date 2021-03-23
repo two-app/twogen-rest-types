@@ -34,6 +34,6 @@ ThisBuild / semanticdbVersion := scalafixSemanticdb.revision
 
 /** GitHub Maven Packages Deployment + Resolver Configuration */
 ThisBuild / githubOwner := "two-app"
-ThisBuild / githubRepository := "t_user"
+ThisBuild / githubRepository := "{{cookiecutter.name}}"
 ThisBuild / resolvers += Resolver.githubPackages("OWNER")
 ThisBuild / githubTokenSource := TokenSource.Environment("GITHUB_TOKEN")
